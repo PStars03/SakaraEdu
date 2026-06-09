@@ -21,34 +21,57 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        @forelse($news as $item)
-            <article class="flex flex-col items-start justify-between rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-md card-hover overflow-hidden group">
-                <div class="relative w-full mb-4 overflow-hidden rounded-xl aspect-video bg-slate-100 flex items-center justify-center">
-                    @if($item->thumbnail)
-                        <img src="{{ Storage::url($item->thumbnail) }}" alt="{{ $item->title }}" class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
-                    @else
-                        <svg class="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                        </svg>
-                    @endif
-                    <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+    <!-- Skeleton Loading State -->
+    <div wire:loading.grid class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full">
+        @for ($i = 0; $i < 6; $i++)
+            <article class="card-hover flex flex-col items-start justify-between rounded-2xl bg-white p-5 shadow-sm border border-slate-200">
+                <div class="h-44 w-full animate-pulse rounded-xl bg-slate-100"></div>
+                <div class="mt-4 flex items-center gap-x-4 w-full">
+                    <div class="h-4 w-20 animate-pulse rounded bg-slate-100"></div>
+                    <div class="h-6 w-16 animate-pulse rounded-full bg-slate-100"></div>
                 </div>
-                <div class="max-w-xl">
+                <div class="mt-3 w-full">
+                    <div class="h-6 w-3/4 animate-pulse rounded bg-slate-100"></div>
+                    <div class="mt-2 h-4 w-full animate-pulse rounded bg-slate-100"></div>
+                    <div class="mt-2 h-4 w-2/3 animate-pulse rounded bg-slate-100"></div>
+                </div>
+                <div class="mt-5 h-10 w-full animate-pulse rounded-xl bg-slate-100"></div>
+            </article>
+        @endfor
+    </div>
+
+    <!-- Data Cards -->
+    <div wire:loading.remove class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        @forelse($news as $item)
+            <article class="card-hover flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div>
+                    <div class="relative w-full mb-4 overflow-hidden rounded-xl aspect-video bg-slate-100 flex items-center justify-center">
+                        @if($item->thumbnail)
+                            <img src="{{ Storage::url($item->thumbnail) }}" alt="{{ $item->title }}" class="absolute inset-0 h-full w-full object-cover">
+                        @else
+                            <svg class="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
+                        @endif
+                    </div>
+                    
                     <div class="mt-2 flex items-center gap-x-4 text-xs">
                         <time datetime="{{ $item->created_at->format('Y-m-d') }}" class="text-slate-500">{{ $item->created_at->format('M d, Y') }}</time>
-                        <span class="relative z-10 rounded-full bg-slate-50 px-3 py-1.5 font-medium text-slate-600 hover:bg-slate-100">{{ $item->category }}</span>
+                        <span class="rounded-full bg-slate-100 px-3 py-1.5 font-medium text-slate-600">{{ $item->category }}</span>
                     </div>
-                    <div class="group relative">
-                        <h3 class="mt-3 text-lg font-semibold leading-6 text-deep-navy group-hover:text-primary-blue transition-colors line-clamp-2">
-                            <a href="{{ route('news.show', $item->slug) }}">
-                                <span class="absolute inset-0"></span>
-                                {{ $item->title }}
-                            </a>
-                        </h3>
-                        <p class="mt-5 line-clamp-3 text-sm leading-6 text-slate-600">{{ strip_tags($item->content) }}</p>
-                    </div>
+                    
+                    <h3 class="mt-3 text-lg font-bold leading-tight text-deep-navy line-clamp-2">
+                        {{ $item->title }}
+                    </h3>
+                    
+                    <p class="mt-3 line-clamp-3 text-sm text-slate-text">
+                        {{ Str::limit(strip_tags($item->content), 120) }}
+                    </p>
                 </div>
+
+                <a href="{{ route('news.show', $item->slug) }}" class="mt-5 inline-flex w-full justify-center rounded-xl bg-slate-50 px-4 py-2 text-sm font-semibold text-deep-navy border border-slate-200 transition hover:bg-slate-100">
+                    Baca Berita
+                </a>
             </article>
         @empty
             <div class="col-span-full rounded-2xl border-2 border-dashed border-slate-200 p-12 text-center">

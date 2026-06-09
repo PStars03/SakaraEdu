@@ -21,9 +21,9 @@
                         </a>
                     </div>
                     <div class="hidden sm:-my-px sm:ml-8 sm:flex sm:space-x-8">
-                        <a href="{{ route('scholarships.index') }}" class="inline-flex items-center border-b-2 {{ request()->routeIs('scholarships.*') ? 'border-primary-blue text-primary-blue' : 'border-transparent text-slate-text hover:border-primary-blue hover:text-primary-blue' }} px-1 pt-1 text-sm font-medium transition-colors">Beasiswa</a>
-                        <a href="{{ route('bootcamps.index') }}" class="inline-flex items-center border-b-2 {{ request()->routeIs('bootcamps.*') ? 'border-primary-blue text-primary-blue' : 'border-transparent text-slate-text hover:border-primary-blue hover:text-primary-blue' }} px-1 pt-1 text-sm font-medium transition-colors">Bootcamp</a>
-                        <a href="{{ route('news.index') }}" class="inline-flex items-center border-b-2 {{ request()->routeIs('news.*') ? 'border-primary-blue text-primary-blue' : 'border-transparent text-slate-text hover:border-primary-blue hover:text-primary-blue' }} px-1 pt-1 text-sm font-medium transition-colors">Berita</a>
+                        <a href="{{ route('scholarships.index') }}" class="inline-flex items-center border-b-2 {{ request()->routeIs('scholarships.*') ? 'border-primary-blue text-primary-blue' : 'border-transparent text-deep-navy hover:border-primary-blue hover:text-primary-blue' }} px-1 pt-1 text-sm font-medium transition-colors">Beasiswa</a>
+                        <a href="{{ route('bootcamps.index') }}" class="inline-flex items-center border-b-2 {{ request()->routeIs('bootcamps.*') ? 'border-primary-blue text-primary-blue' : 'border-transparent text-deep-navy hover:border-primary-blue hover:text-primary-blue' }} px-1 pt-1 text-sm font-medium transition-colors">Bootcamp</a>
+                        <a href="{{ route('news.index') }}" class="inline-flex items-center border-b-2 {{ request()->routeIs('news.*') ? 'border-primary-blue text-primary-blue' : 'border-transparent text-deep-navy hover:border-primary-blue hover:text-primary-blue' }} px-1 pt-1 text-sm font-medium transition-colors">Berita</a>
                     </div>
                 </div>
                 <div class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-4">

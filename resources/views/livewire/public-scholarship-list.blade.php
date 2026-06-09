@@ -12,42 +12,56 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Skeleton Loading State -->
+    <div wire:loading.grid class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full">
+        @for ($i = 0; $i < 6; $i++)
+            <div class="card-hover flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="h-44 w-full animate-pulse rounded-xl bg-slate-100"></div>
+                <div class="mt-4 flex items-start justify-between gap-3">
+                    <div class="w-full">
+                        <div class="h-5 w-3/4 animate-pulse rounded bg-slate-100"></div>
+                        <div class="mt-2 h-4 w-1/2 animate-pulse rounded bg-slate-100"></div>
+                    </div>
+                </div>
+                <div class="mt-3 h-4 w-2/3 animate-pulse rounded bg-slate-100"></div>
+                <div class="mt-5 h-10 w-full animate-pulse rounded-xl bg-slate-100"></div>
+            </div>
+        @endfor
+    </div>
+
+    <!-- Data Cards -->
+    <div wire:loading.remove class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @forelse($scholarships as $scholarship)
-            <div class="group flex flex-col justify-between rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-md card-hover">
+            <div class="card-hover flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div>
                     @if($scholarship->poster)
-                        <div class="mb-4 overflow-hidden rounded-xl bg-slate-100 aspect-video flex items-center justify-center">
-                            <img src="{{ Storage::url($scholarship->poster) }}" alt="{{ $scholarship->title }}" class="h-full w-full object-cover">
-                        </div>
+                        <img src="{{ Storage::url($scholarship->poster) }}" alt="{{ $scholarship->title }}" class="h-44 w-full rounded-xl object-cover">
                     @else
-                        <div class="mb-4 rounded-xl bg-primary-blue/10 p-3 inline-block">
-                            <svg class="h-6 w-6 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="flex h-44 w-full items-center justify-center rounded-xl bg-slate-100 text-slate-400">
+                            <svg class="h-12 w-12 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
                     @endif
-                    <h3 class="text-lg font-bold leading-tight text-deep-navy line-clamp-2">
-                        <a href="{{ route('scholarships.show', $scholarship->slug) }}" class="focus:outline-none">
-                            <span class="absolute inset-0" aria-hidden="true"></span>
-                            {{ $scholarship->title }}
-                        </a>
-                    </h3>
-                    <p class="mt-2 text-sm text-slate-500">{{ $scholarship->organizer }}</p>
-                    <div class="mt-4 flex items-center gap-2 text-sm text-slate-600">
-                        <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+
+                    <div class="mt-4">
+                        <h3 class="text-lg font-bold text-deep-navy line-clamp-2">{{ $scholarship->title }}</h3>
+                        <p class="mt-1 text-sm text-slate-text">{{ $scholarship->organizer }}</p>
+                    </div>
+
+                    <p class="mt-3 line-clamp-2 text-sm text-slate-text">
+                        {{ $scholarship->description ?? 'Tidak ada deskripsi tersedia.' }}
+                    </p>
+                    
+                    <div class="mt-3 flex items-center gap-x-2 text-sm text-slate-500">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         {{ $scholarship->location }}
                     </div>
                 </div>
-                <div class="mt-6 border-t border-slate-100 pt-4 flex items-center justify-between">
-                    <p class="text-xs text-slate-500">
-                        Tutup: <span class="font-medium text-slate-700">{{ $scholarship->end_date->format('d M Y') }}</span>
-                    </p>
-                    <span class="text-sm font-semibold text-primary-blue group-hover:text-sky-blue transition-colors">Lihat Detail →</span>
-                </div>
+
+                <a href="{{ route('scholarships.show', $scholarship->slug) }}" class="mt-5 inline-flex w-full justify-center rounded-xl border-2 border-primary-blue bg-white px-4 py-2 text-sm font-semibold text-primary-blue transition hover:bg-primary-blue hover:text-white">
+                    Lihat Beasiswa
+                </a>
             </div>
         @empty
             <div class="col-span-full rounded-2xl border-2 border-dashed border-slate-200 p-12 text-center">

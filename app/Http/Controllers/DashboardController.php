@@ -9,6 +9,20 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
+    /**
+     * Universal dashboard entry point — redirects to the correct dashboard based on role.
+     */
+    public function index()
+    {
+        $user = auth()->user();
+
+        return match ($user->role) {
+            'super_admin' => redirect()->route('super-admin.dashboard'),
+            'admin' => redirect()->route('admin.dashboard'),
+            default => redirect()->route('user.dashboard'),
+        };
+    }
+
     public function userDashboard()
     {
         return view('dashboard.user');

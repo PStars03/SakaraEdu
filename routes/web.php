@@ -50,10 +50,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // User dashboard & finance plans
+    // Universal dashboard redirect — accessible to ALL authenticated users
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // User-only routes
     Route::middleware('role:user')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'userDashboard'])
-            ->name('dashboard');
+        Route::get('/dashboard/user', [DashboardController::class, 'userDashboard'])
+            ->name('user.dashboard');
             
         Route::resource('uang-beasiswa', \App\Http\Controllers\ScholarshipFinancePlanController::class);
     });

@@ -25,6 +25,8 @@ class ScholarshipFinancePlanController extends Controller
             'scholarship_amount' => 'required|numeric|min:100000',
             'uses_transport' => 'required|boolean',
             'uses_rent' => 'required|boolean',
+            'rent_cost' => 'nullable|numeric|min:0',
+            'transport_cost' => 'nullable|numeric|min:0',
             'rent_percentage' => 'required|integer',
             'food_percentage' => 'required|integer',
             'transport_percentage' => 'required|integer',
@@ -32,10 +34,12 @@ class ScholarshipFinancePlanController extends Controller
             'other_percentage' => 'required|integer',
         ]);
 
-        $total = $validated['rent_percentage'] + $validated['food_percentage'] + $validated['transport_percentage'] + $validated['saving_percentage'] + $validated['other_percentage'];
-        
-        if ($total !== 100) {
-            return back()->withErrors(['Persentase total harus 100%'])->withInput();
+        // Clear nominal costs if scenario is not selected
+        if (!$validated['uses_rent']) {
+            $validated['rent_cost'] = null;
+        }
+        if (!$validated['uses_transport']) {
+            $validated['transport_cost'] = null;
         }
 
         auth()->user()->financePlans()->create($validated);
@@ -64,6 +68,8 @@ class ScholarshipFinancePlanController extends Controller
             'scholarship_amount' => 'required|numeric|min:100000',
             'uses_transport' => 'required|boolean',
             'uses_rent' => 'required|boolean',
+            'rent_cost' => 'nullable|numeric|min:0',
+            'transport_cost' => 'nullable|numeric|min:0',
             'rent_percentage' => 'required|integer',
             'food_percentage' => 'required|integer',
             'transport_percentage' => 'required|integer',
@@ -71,10 +77,12 @@ class ScholarshipFinancePlanController extends Controller
             'other_percentage' => 'required|integer',
         ]);
 
-        $total = $validated['rent_percentage'] + $validated['food_percentage'] + $validated['transport_percentage'] + $validated['saving_percentage'] + $validated['other_percentage'];
-        
-        if ($total !== 100) {
-            return back()->withErrors(['Persentase total harus 100%'])->withInput();
+        // Clear nominal costs if scenario is not selected
+        if (!$validated['uses_rent']) {
+            $validated['rent_cost'] = null;
+        }
+        if (!$validated['uses_transport']) {
+            $validated['transport_cost'] = null;
         }
 
         $plan->update($validated);
