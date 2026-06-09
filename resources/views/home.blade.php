@@ -11,10 +11,10 @@
                     SakaraEdu membantu mahasiswa mencari peluang belajar, menemukan program pengembangan skill, dan mengatur dana beasiswa dengan lebih rapi dalam satu platform terpusat.
                 </p>
                 <div class="mt-10 flex items-center justify-center gap-x-6">
-                    <a href="{{ route('register') }}" class="rounded-xl bg-fresh-green px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-dark-green hover:-translate-y-1 transition-all btn-transition">
+                    <a href="{{ route('register') }}" class="rounded-xl bg-fresh-green px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-dark-green hover:px-10 hover:shadow-md hover:-translate-y-1 duration-300 transition-all">
                         Mulai Sekarang
                     </a>
-                    <a href="{{ route('scholarships.index') }}" class="rounded-xl border-2 border-primary-blue px-8 py-3 text-sm font-semibold text-primary-blue hover:bg-primary-blue hover:text-white hover:-translate-y-1 transition-all btn-transition">
+                    <a href="{{ route('scholarships.index') }}" class="rounded-xl border-2 border-primary-blue px-8 py-3 text-sm font-semibold text-primary-blue hover:bg-primary-blue hover:text-white hover:px-10 hover:shadow-md hover:-translate-y-1 duration-300 transition-all">
                         Lihat Beasiswa <span aria-hidden="true">→</span>
                     </a>
                 </div>
