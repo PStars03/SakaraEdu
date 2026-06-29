@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ScholarshipFinancePlan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class ScholarshipFinancePlanController extends Controller
@@ -88,6 +89,37 @@ class ScholarshipFinancePlanController extends Controller
         $plan->update($validated);
 
         return redirect()->route('uang-beasiswa.index')->with('success', 'Rencana keuangan berhasil diperbarui.');
+    }
+
+    public function exportPdf($id)
+    {
+        $plan = auth()->user()->financePlans()->findOrFail($id);
+
+        $amount         = (float) $plan->scholarship_amount;
+        $totalDays      = 180;
+        $totalMonths    = 6;
+        $rentTotal      = $plan->uses_rent && $plan->rent_cost ? (float) $plan->rent_cost * $totalMonths : 0;
+        $transportTotal = $plan->uses_transport && $plan->transport_cost ? (float) $plan->transport_cost * $totalDays : 0;
+        $remaining      = max(0, $amount - $rentTotal - $transportTotal);
+
+        $foodPct    = $plan->food_percentage;
+        $savingPct  = $plan->saving_percentage;
+        $otherPct   = $plan->other_percentage;
+        $pctSum     = $foodPct + $savingPct + $otherPct;
+
+        $foodAmount   = $pctSum > 0 ? ($foodPct / $pctSum) * $remaining : 0;
+        $savingAmount = $pctSum > 0 ? ($savingPct / $pctSum) * $remaining : 0;
+        $otherAmount  = $pctSum > 0 ? ($otherPct / $pctSum) * $remaining : 0;
+
+        $pdf = Pdf::loadView('finance-plans.pdf', compact(
+            'plan', 'amount', 'totalDays', 'totalMonths',
+            'rentTotal', 'transportTotal', 'remaining',
+            'foodAmount', 'savingAmount', 'otherAmount'
+        ))->setPaper('a4', 'portrait');
+
+        $filename = 'rencana-keuangan-' . str_replace(' ', '-', strtolower($plan->title)) . '.pdf';
+
+        return $pdf->download($filename);
     }
 
     public function destroy($id)

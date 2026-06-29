@@ -17,4 +17,10 @@ class BootcampController extends Controller
         $bootcamp = Bootcamp::where('slug', $slug)->where('status', 'published')->firstOrFail();
         return view('bootcamps.show', compact('bootcamp'));
     }
+
+    public function checkout($slug)
+    {
+        $bootcamp = Bootcamp::where('slug', $slug)->where('status', 'published')->firstOrFail();
+        return view('bootcamps.checkout', compact('bootcamp'));
+    }
 }

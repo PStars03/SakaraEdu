@@ -4,10 +4,12 @@ use App\Http\Controllers\AdminBootcampController;
 use App\Http\Controllers\AdminNewsController;
 use App\Http\Controllers\AdminScholarshipController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\BootcampController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScholarshipController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,7 @@ Route::get('/beasiswa/{slug}', [ScholarshipController::class, 'show'])->name('sc
 
 Route::get('/bootcamp', [BootcampController::class, 'index'])->name('bootcamps.index');
 Route::get('/bootcamp/{slug}', [BootcampController::class, 'show'])->name('bootcamps.show');
+Route::get('/bootcamp/{slug}/checkout', [BootcampController::class, 'checkout'])->name('bootcamps.checkout');
 
 Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
@@ -52,6 +55,18 @@ Route::middleware('auth')->group(function () {
 
     // Universal dashboard redirect — accessible to ALL authenticated users
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Profile routes (all authenticated users)
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Bookmark routes (all authenticated users)
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+    Route::post('/bookmarks/toggle', [BookmarkController::class, 'toggle'])->name('bookmarks.toggle');
+
+    // Finance plan PDF export
+    Route::get('/uang-beasiswa/{id}/pdf', [\App\Http\Controllers\ScholarshipFinancePlanController::class, 'exportPdf'])->name('uang-beasiswa.pdf');
 
     // User-only routes
     Route::middleware('role:user')->group(function () {

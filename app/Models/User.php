@@ -63,6 +63,24 @@ class User extends Authenticatable
         return $this->hasMany(ScholarshipFinancePlan::class);
     }
 
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    public function hasBookmarked(string $type, int $id): bool
+    {
+        return $this->bookmarks()
+            ->where('bookmarkable_type', $type)
+            ->where('bookmarkable_id', $id)
+            ->exists();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function hasRole(string ...$roles): bool
     {
         return in_array($this->role, $roles);

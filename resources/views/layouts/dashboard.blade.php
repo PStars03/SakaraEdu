@@ -81,6 +81,21 @@
                     @endif
                 
                 <div class="my-3 border-t border-white/10"></div>
+                <p class="px-4 text-xs font-semibold uppercase tracking-wider text-slate-400">Akun</p>
+
+                <a href="{{ route('profile.show') }}" class="{{ request()->routeIs('profile.*') ? 'bg-gradient-to-r from-primary-blue to-sky-blue text-white' : 'text-slate-300 hover:bg-white/10 hover:text-white' }} flex items-center rounded-xl px-4 py-3 text-sm font-medium transition-colors">
+                    <svg class="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Profil Saya
+                </a>
+
+                @if(auth()->user()->isUser())
+                <a href="{{ route('bookmarks.index') }}" class="{{ request()->routeIs('bookmarks.*') ? 'bg-gradient-to-r from-primary-blue to-sky-blue text-white' : 'text-slate-300 hover:bg-white/10 hover:text-white' }} flex items-center rounded-xl px-4 py-3 text-sm font-medium transition-colors">
+                    <svg class="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                    Bookmark Saya
+                </a>
+                @endif
+
+                <div class="my-3 border-t border-white/10"></div>
                 <a href="{{ route('home') }}" class="text-slate-300 hover:bg-white/10 hover:text-white flex items-center rounded-xl px-4 py-3 text-sm font-medium transition-colors">
                     <svg class="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
                     Kembali ke Beranda

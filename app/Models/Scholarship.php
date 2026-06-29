@@ -39,4 +39,14 @@ class Scholarship extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function bookmarks()
+    {
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->latest();
+    }
 }

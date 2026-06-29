@@ -63,7 +63,7 @@ class ContentTest extends TestCase
         $this->assertEquals('Free', $bootcamp->formatted_price);
         
         $response = $this->get('/bootcamp/' . $bootcamp->slug);
-        $response->assertSee('Free Bootcamp');
+        $response->assertSee('Gratis'); // UI displays 'Gratis' (Indonesian for Free)
     }
 
     public function test_paid_bootcamp_displays_rupiah_price(): void

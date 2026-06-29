@@ -10,10 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $scholarships = Scholarship::where('status', 'published')->latest()->take(3)->get();
-        $bootcamps = Bootcamp::where('status', 'published')->latest()->take(3)->get();
-        $news = News::where('status', 'published')->latest()->take(3)->get();
-        
+        $scholarships = Scholarship::where('status', 'published')->latest()->take(6)->get();
+        $bootcamps    = Bootcamp::where('status', 'published')->latest()->take(6)->get();
+        $news         = News::where('status', 'published')->latest()->take(5)->get();
+
         return view('home', compact('scholarships', 'bootcamps', 'news'));
     }
 }
+
