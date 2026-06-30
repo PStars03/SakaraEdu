@@ -187,9 +187,9 @@
                         <li><a href="{{ route('news.index') }}" class="text-slate-300 hover:text-white transition-colors">Tips Beasiswa</a></li>
                         <li><a href="{{ route('news.index') }}" class="text-slate-300 hover:text-white transition-colors">Tips Karir IT</a></li>
                         @auth
-                            <li><a href="{{ route('uang-beasiswa.index') }}" class="text-slate-300 hover:text-white transition-colors">Kalkulator Beasiswa</a></li>
+                            <li><a href="{{ route('ai-advisor.index') }}" class="text-slate-300 hover:text-white transition-colors">AI Financial Advisor</a></li>
                         @else
-                            <li><a href="{{ route('login') }}" class="text-slate-300 hover:text-white transition-colors">Kalkulator Beasiswa</a></li>
+                            <li><a href="{{ route('login') }}" class="text-slate-300 hover:text-white transition-colors">AI Financial Advisor</a></li>
                         @endauth
                         <li><a href="{{ route('register') }}" class="text-slate-300 hover:text-white transition-colors">Daftar Akun</a></li>
                     </ul>

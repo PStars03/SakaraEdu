@@ -63,6 +63,16 @@ class User extends Authenticatable
         return $this->hasMany(ScholarshipFinancePlan::class);
     }
 
+    public function aiSemesterPlanners()
+    {
+        return $this->hasMany(AiSemesterPlanner::class);
+    }
+
+    public function dailyTransactions()
+    {
+        return $this->hasMany(DailyTransaction::class);
+    }
+
     public function bookmarks()
     {
         return $this->hasMany(Bookmark::class);

@@ -26,9 +26,21 @@ class DashboardController extends Controller
     public function userDashboard()
     {
         $user = auth()->user();
+        
+        // Calculate QuickLog Totals
+        $totalPemasukan = $user->dailyTransactions()->where('transaction_type', 'masuk')->sum('amount');
+        $totalPengeluaran = $user->dailyTransactions()->where('transaction_type', 'keluar')->sum('amount');
+        $saldo = $totalPemasukan - $totalPengeluaran;
+        
+        $recentTransactions = $user->dailyTransactions()->latest()->take(5)->get();
+
         return view('dashboard.user', [
-            'financePlanCount' => $user->financePlans()->count(),
-            'bookmarkCount'    => $user->bookmarks()->count(),
+            'aiPlannerCount'      => $user->aiSemesterPlanners()->count(),
+            'bookmarkCount'       => $user->bookmarks()->count(),
+            'totalPemasukan'      => $totalPemasukan,
+            'totalPengeluaran'    => $totalPengeluaran,
+            'saldo'               => $saldo,
+            'recentTransactions'  => $recentTransactions,
         ]);
     }
 

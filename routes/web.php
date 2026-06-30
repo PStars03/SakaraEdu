@@ -65,15 +65,31 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
     Route::post('/bookmarks/toggle', [BookmarkController::class, 'toggle'])->name('bookmarks.toggle');
 
-    // Finance plan PDF export
+    // Finance plan PDF export (legacy - keep for existing PDFs)
     Route::get('/uang-beasiswa/{id}/pdf', [\App\Http\Controllers\ScholarshipFinancePlanController::class, 'exportPdf'])->name('uang-beasiswa.pdf');
 
     // User-only routes
     Route::middleware('role:user')->group(function () {
         Route::get('/dashboard/user', [DashboardController::class, 'userDashboard'])
             ->name('user.dashboard');
-            
-        Route::resource('uang-beasiswa', \App\Http\Controllers\ScholarshipFinancePlanController::class);
+
+        // QuickLog AI
+        Route::post('/quicklog', [\App\Http\Controllers\QuickLogController::class, 'store'])->name('quicklog.store');
+        
+        // Transaction History & Management
+        Route::get('/transactions', [\App\Http\Controllers\TransactionController::class, 'index'])->name('transactions.index');
+        Route::put('/transactions/{id}', [\App\Http\Controllers\TransactionController::class, 'update'])->name('transactions.update');
+        Route::delete('/transactions/{id}', [\App\Http\Controllers\TransactionController::class, 'destroy'])->name('transactions.destroy');
+        Route::get('/transactions/export', [\App\Http\Controllers\TransactionController::class, 'export'])->name('transactions.export');
+
+        // AI Student Financial Advisor (new)
+        Route::get('/ai-advisor', [\App\Http\Controllers\AiAdvisorController::class, 'index'])->name('ai-advisor.index');
+        Route::get('/ai-advisor/create', [\App\Http\Controllers\AiAdvisorController::class, 'create'])->name('ai-advisor.create');
+        Route::post('/ai-advisor', [\App\Http\Controllers\AiAdvisorController::class, 'store'])->name('ai-advisor.store');
+        Route::get('/ai-advisor/{id}', [\App\Http\Controllers\AiAdvisorController::class, 'show'])->name('ai-advisor.show');
+        Route::post('/ai-advisor/{id}/regenerate', [\App\Http\Controllers\AiAdvisorController::class, 'regenerate'])->name('ai-advisor.regenerate');
+        Route::delete('/ai-advisor/{id}', [\App\Http\Controllers\AiAdvisorController::class, 'destroy'])->name('ai-advisor.destroy');
+        Route::get('/ai-advisor/{id}/pdf', [\App\Http\Controllers\AiAdvisorController::class, 'exportPdf'])->name('ai-advisor.pdf');
     });
 
     // Admin & Super Admin CRUD Routes
