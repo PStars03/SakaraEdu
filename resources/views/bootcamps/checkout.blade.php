@@ -17,9 +17,9 @@
             <span class="text-slate-700 font-medium">Checkout</span>
         </nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-
-            {{-- ===== LEFT: Checkout Form ===== --}}
+        <form method="POST" action="{{ route('bootcamps.process_checkout', $bootcamp->slug) }}">
+            @csrf
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">            {{-- ===== LEFT: Checkout Form ===== --}}
             <div class="lg:col-span-2 space-y-6">
 
                 {{-- Step Indicator --}}
@@ -79,6 +79,8 @@
                     </div>
                 </div>
 
+
+
                 {{-- Payment Method --}}
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 animate-fade-up" style="animation-delay: 160ms" x-data="{ method: 'bca' }">
                     <h2 class="font-bold text-deep-navy text-lg mb-5 pb-3 border-b border-slate-100">Pilih Metode Pembayaran</h2>
@@ -127,6 +129,13 @@
                             </div>
                         </label>
                         @endforeach
+                        
+                        {{-- OVO Phone Input --}}
+                        <div x-show="method === 'ovo'" x-transition class="mt-4 p-4 rounded-xl border border-purple-100 bg-purple-50">
+                            <label class="block text-sm font-semibold text-purple-900 mb-1.5">Nomor HP OVO</label>
+                            <input type="tel" name="ovo_phone" placeholder="Contoh: 08123456789" class="w-full rounded-xl border border-purple-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500">
+                            <p class="text-xs text-purple-600 mt-1.5">Notifikasi pembayaran akan dikirimkan ke aplikasi OVO Anda.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -195,13 +204,13 @@
                     </div>
 
                     {{-- Pay Button --}}
-                    @if($bootcamp->is_paid && isset($registration) && $registration->snap_token)
-                        <button id="pay-button"
+                    @if($bootcamp->is_paid)
+                        <button type="submit"
                            class="w-full flex justify-center items-center gap-2 rounded-2xl py-4 text-sm font-bold text-white shadow-xl transition-all hover:-translate-y-1 bg-gradient-to-r from-primary-blue to-sky-blue hover:from-deep-navy hover:to-primary-blue">
                             💳 Bayar Sekarang
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                         </button>
-                    @elseif(!$bootcamp->is_paid)
+                    @else
                         <a href="{{ $bootcamp->registration_link }}" target="_blank"
                            class="w-full flex justify-center items-center gap-2 rounded-2xl py-4 text-sm font-bold text-white shadow-xl transition-all hover:-translate-y-1 bg-gradient-to-r from-fresh-green to-dark-green">
                             🎉 Daftar Sekarang (Gratis!)
@@ -210,7 +219,7 @@
                     @endif
 
                     <p class="text-center text-xs text-slate-400">
-                        Kamu akan diarahkan ke halaman resmi penyelenggara untuk menyelesaikan pendaftaran.
+                        Kamu akan diarahkan ke halaman instruksi pembayaran yang aman.
                     </p>
 
                     {{-- Security Badges --}}
@@ -237,33 +246,9 @@
             </div>
 
         </div>
+        </form>
     </div>
 </div>
 @endsection
 
-@push('scripts')
-@if(isset($bootcamp) && $bootcamp->is_paid && isset($registration) && $registration->snap_token)
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
-    <script>
-        document.getElementById('pay-button').onclick = function(){
-            snap.pay('{{ $registration->snap_token }}', {
-                onSuccess: function(result){
-                    alert("Pembayaran berhasil!");
-                    window.location.href = "{{ route('bootcamps.show', $bootcamp->slug) }}";
-                },
-                onPending: function(result){
-                    alert("Menunggu pembayaran Anda!");
-                    window.location.href = "{{ route('bootcamps.show', $bootcamp->slug) }}";
-                },
-                onError: function(result){
-                    alert("Pembayaran gagal!");
-                    window.location.href = "{{ route('bootcamps.show', $bootcamp->slug) }}";
-                },
-                onClose: function(){
-                    console.log('Customer closed the popup without finishing the payment');
-                }
-            });
-        };
-    </script>
-@endif
-@endpush
+
