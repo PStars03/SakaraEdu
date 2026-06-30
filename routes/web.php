@@ -70,8 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
     Route::post('/bookmarks/toggle', [BookmarkController::class, 'toggle'])->name('bookmarks.toggle');
 
-    // Finance plan PDF export (legacy - keep for existing PDFs)
+    // Finance Plan (Rencana Keuangan Beasiswa) routes
     Route::get('/uang-beasiswa/{id}/pdf', [\App\Http\Controllers\ScholarshipFinancePlanController::class, 'exportPdf'])->name('uang-beasiswa.pdf');
+    Route::resource('uang-beasiswa', \App\Http\Controllers\ScholarshipFinancePlanController::class)->middleware('role:user');
 
     // User-only routes
     Route::middleware('role:user')->group(function () {
@@ -95,6 +96,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/ai-advisor/{id}/regenerate', [\App\Http\Controllers\AiAdvisorController::class, 'regenerate'])->name('ai-advisor.regenerate');
         Route::delete('/ai-advisor/{id}', [\App\Http\Controllers\AiAdvisorController::class, 'destroy'])->name('ai-advisor.destroy');
         Route::get('/ai-advisor/{id}/pdf', [\App\Http\Controllers\AiAdvisorController::class, 'exportPdf'])->name('ai-advisor.pdf');
+
+        // My Tickets (Bootcamp Registrations)
+        Route::get('/tiket-saya', [\App\Http\Controllers\UserTicketController::class, 'index'])->name('user.tickets.index');
+        Route::get('/tiket-saya/{id}', [\App\Http\Controllers\UserTicketController::class, 'show'])->name('user.tickets.show');
     });
 
     // Admin & Super Admin CRUD Routes

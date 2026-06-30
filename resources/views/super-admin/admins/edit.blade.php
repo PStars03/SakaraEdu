@@ -52,6 +52,28 @@
                 </div>
             </div>
 
+            <hr class="border-slate-200">
+            <h3 class="text-sm font-bold text-deep-navy">Informasi Pencairan Dana (Opsional)</h3>
+            <p class="text-xs text-slate-500 mb-4">Informasi ini dibutuhkan agar Admin menerima pendapatan dari Bootcamp berbayar yang ia buat.</p>
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <label for="bank_name" class="block text-sm font-medium text-deep-navy">Nama Bank</label>
+                    <select name="bank_name" id="bank_name" class="mt-2 block w-full rounded-xl border-0 py-2.5 px-4 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-blue sm:text-sm shadow-sm">
+                        <option value="">-- Pilih Bank --</option>
+                        @foreach(['bca' => 'BCA', 'mandiri' => 'Mandiri', 'bni' => 'BNI', 'bri' => 'BRI', 'gopay' => 'GoPay', 'ovo' => 'OVO'] as $code => $name)
+                            <option value="{{ $code }}" @selected(old('bank_name', $admin->bank_name) == $code)>{{ $name }}</option>
+                        @endforeach
+                    </select>
+                    @error('bank_name') <span class="text-sm text-red-500 mt-1 block">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label for="bank_account_number" class="block text-sm font-medium text-deep-navy">Nomor Rekening</label>
+                    <input type="text" name="bank_account_number" id="bank_account_number" value="{{ old('bank_account_number', $admin->bank_account_number) }}" placeholder="Contoh: 1234567890" class="mt-2 block w-full rounded-xl border-0 py-2.5 px-4 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-blue sm:text-sm shadow-sm">
+                    @error('bank_account_number') <span class="text-sm text-red-500 mt-1 block">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
             <div class="pt-4 border-t border-slate-100 flex justify-between">
                 <button type="submit" class="rounded-xl bg-primary-blue px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-deep-navy transition-colors">
                     Perbarui Admin

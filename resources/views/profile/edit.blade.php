@@ -109,6 +109,30 @@
         </div>
         @endif
 
+        {{-- Informasi Rekening Bank (Hanya untuk Admin/Super Admin) --}}
+        @if(auth()->user()->isAdmin() || auth()->user()->isSuperAdmin())
+        <div>
+            <h3 class="text-base font-bold text-deep-navy mb-4 pb-2 border-b border-slate-100">Informasi Pencairan Dana (Opsional)</h3>
+            <p class="text-sm text-slate-500 mb-4">Pastikan data rekening benar agar pencairan otomatis dari penjualan tiket Bootcamp tidak terhambat.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                    <label for="bank_name" class="block text-sm font-medium text-slate-700 mb-1.5">Nama Bank</label>
+                    <select id="bank_name" name="bank_name" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm text-slate-900 shadow-sm focus:border-primary-blue focus:ring-2 focus:ring-primary-blue/20 transition">
+                        <option value="">-- Pilih Bank --</option>
+                        @foreach(['bca' => 'BCA', 'mandiri' => 'Mandiri', 'bni' => 'BNI', 'bri' => 'BRI', 'gopay' => 'GoPay', 'ovo' => 'OVO'] as $code => $name)
+                            <option value="{{ $code }}" @selected(old('bank_name', $user->bank_name) == $code)>{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="bank_account_number" class="block text-sm font-medium text-slate-700 mb-1.5">Nomor Rekening</label>
+                    <input type="text" id="bank_account_number" name="bank_account_number" value="{{ old('bank_account_number', $user->bank_account_number) }}" placeholder="Contoh: 1234567890"
+                           class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm text-slate-900 shadow-sm focus:border-primary-blue focus:ring-2 focus:ring-primary-blue/20 transition">
+                </div>
+            </div>
+        </div>
+        @endif
+
         {{-- Actions --}}
         <div class="flex gap-3 pt-2">
             <button type="submit"

@@ -30,6 +30,8 @@ class ProfileController extends Controller
             'semester'      => 'nullable|integer|min:1|max:14',
             'address'       => 'nullable|string|max:500',
             'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'bank_name'     => 'nullable|string|max:50',
+            'bank_account_number' => 'nullable|string|max:50',
         ]);
 
         if ($request->hasFile('profile_photo')) {

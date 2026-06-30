@@ -25,6 +25,8 @@ class AdminManagementController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::min(8)],
+            'bank_name' => ['nullable', 'string', 'max:50'],
+            'bank_account_number' => ['nullable', 'string', 'max:50'],
         ]);
 
         User::create([
@@ -32,6 +34,8 @@ class AdminManagementController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => 'admin',
+            'bank_name' => $validated['bank_name'] ?? null,
+            'bank_account_number' => $validated['bank_account_number'] ?? null,
         ]);
 
         return redirect()->route('super-admin.admins.index')->with('success', 'Akun admin berhasil dibuat.');
@@ -51,11 +55,15 @@ class AdminManagementController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $admin->id],
             'password' => ['nullable', 'confirmed', Password::min(8)],
+            'bank_name' => ['nullable', 'string', 'max:50'],
+            'bank_account_number' => ['nullable', 'string', 'max:50'],
         ]);
 
         $dataToUpdate = [
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'bank_name' => $validated['bank_name'] ?? null,
+            'bank_account_number' => $validated['bank_account_number'] ?? null,
         ];
 
         if (!empty($validated['password'])) {

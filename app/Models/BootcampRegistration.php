@@ -15,7 +15,6 @@ class BootcampRegistration extends Model
         'order_id',
         'amount',
         'status',
-        'snap_token',
         'payment_method',
         'payment_info',
         'payout_status',
