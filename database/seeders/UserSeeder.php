@@ -25,6 +25,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@sakaraedu.com',
             'password' => Hash::make('password123'),
             'role' => 'admin',
+            'bank_name' => 'bca',
+            'bank_account_number' => '1234567890',
         ]);
 
         User::create([
