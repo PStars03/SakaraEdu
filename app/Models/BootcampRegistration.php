@@ -18,10 +18,13 @@ class BootcampRegistration extends Model
         'snap_token',
         'payment_method',
         'payment_info',
+        'payout_status',
+        'payout_info',
     ];
 
     protected $casts = [
         'payment_info' => 'array',
+        'payout_info' => 'array',
     ];
 
     public function user()

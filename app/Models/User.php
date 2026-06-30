@@ -22,6 +22,8 @@ use Illuminate\Notifications\Notifiable;
     'semester',
     'address',
     'profile_photo',
+    'bank_name',
+    'bank_account_number',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable

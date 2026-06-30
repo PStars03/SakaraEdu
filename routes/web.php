@@ -31,7 +31,7 @@ Route::post('/bootcamp/{slug}/checkout', [BootcampController::class, 'processChe
 Route::get('/bootcamp/{slug}/payment/{order_id}', [BootcampController::class, 'payment'])->middleware('auth')->name('bootcamps.payment');
 
 // Midtrans Webhook Callback
-Route::post('/payment/callback', [\App\Http\Controllers\PaymentCallbackController::class, 'midtransCallback'])->name('payment.callback');
+Route::post('/payment/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle'])->name('payment.callback');
 
 Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
