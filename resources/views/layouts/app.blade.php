@@ -234,5 +234,6 @@
         // Alpine.js inline for navbar dropdown
         document.addEventListener('alpine:init', () => {})
     </script>
+    @stack('scripts')
 </body>
 </html>

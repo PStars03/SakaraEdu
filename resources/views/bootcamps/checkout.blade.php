@@ -195,16 +195,19 @@
                     </div>
 
                     {{-- Pay Button --}}
-                    <a href="{{ $bootcamp->registration_link }}" target="_blank"
-                       class="w-full flex justify-center items-center gap-2 rounded-2xl py-4 text-sm font-bold text-white shadow-xl transition-all hover:-translate-y-1
-                              {{ $bootcamp->is_paid ? 'bg-gradient-to-r from-primary-blue to-sky-blue hover:from-deep-navy hover:to-primary-blue' : 'bg-gradient-to-r from-fresh-green to-dark-green' }}">
-                        @if(!$bootcamp->is_paid)
-                            🎉 Daftar Sekarang (Gratis!)
-                        @else
+                    @if($bootcamp->is_paid && isset($registration) && $registration->snap_token)
+                        <button id="pay-button"
+                           class="w-full flex justify-center items-center gap-2 rounded-2xl py-4 text-sm font-bold text-white shadow-xl transition-all hover:-translate-y-1 bg-gradient-to-r from-primary-blue to-sky-blue hover:from-deep-navy hover:to-primary-blue">
                             💳 Bayar Sekarang
-                        @endif
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                    </a>
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
+                    @elseif(!$bootcamp->is_paid)
+                        <a href="{{ $bootcamp->registration_link }}" target="_blank"
+                           class="w-full flex justify-center items-center gap-2 rounded-2xl py-4 text-sm font-bold text-white shadow-xl transition-all hover:-translate-y-1 bg-gradient-to-r from-fresh-green to-dark-green">
+                            🎉 Daftar Sekarang (Gratis!)
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </a>
+                    @endif
 
                     <p class="text-center text-xs text-slate-400">
                         Kamu akan diarahkan ke halaman resmi penyelenggara untuk menyelesaikan pendaftaran.
@@ -237,3 +240,30 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+@if(isset($bootcamp) && $bootcamp->is_paid && isset($registration) && $registration->snap_token)
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <script>
+        document.getElementById('pay-button').onclick = function(){
+            snap.pay('{{ $registration->snap_token }}', {
+                onSuccess: function(result){
+                    alert("Pembayaran berhasil!");
+                    window.location.href = "{{ route('bootcamps.show', $bootcamp->slug) }}";
+                },
+                onPending: function(result){
+                    alert("Menunggu pembayaran Anda!");
+                    window.location.href = "{{ route('bootcamps.show', $bootcamp->slug) }}";
+                },
+                onError: function(result){
+                    alert("Pembayaran gagal!");
+                    window.location.href = "{{ route('bootcamps.show', $bootcamp->slug) }}";
+                },
+                onClose: function(){
+                    console.log('Customer closed the popup without finishing the payment');
+                }
+            });
+        };
+    </script>
+@endif
+@endpush

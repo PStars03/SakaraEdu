@@ -26,7 +26,10 @@ Route::get('/beasiswa/{slug}', [ScholarshipController::class, 'show'])->name('sc
 
 Route::get('/bootcamp', [BootcampController::class, 'index'])->name('bootcamps.index');
 Route::get('/bootcamp/{slug}', [BootcampController::class, 'show'])->name('bootcamps.show');
-Route::get('/bootcamp/{slug}/checkout', [BootcampController::class, 'checkout'])->name('bootcamps.checkout');
+Route::get('/bootcamp/{slug}/checkout', [BootcampController::class, 'checkout'])->middleware('auth')->name('bootcamps.checkout');
+
+// Midtrans Webhook Callback
+Route::post('/payment/callback', [\App\Http\Controllers\PaymentCallbackController::class, 'midtransCallback'])->name('payment.callback');
 
 Route::get('/berita', [NewsController::class, 'index'])->name('news.index');
 Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
