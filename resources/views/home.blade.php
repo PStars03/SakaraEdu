@@ -143,13 +143,13 @@
             <a href="#bootcamp-section" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-primary-blue bg-primary-blue/5 px-5 py-2 text-sm font-semibold text-primary-blue hover:bg-primary-blue hover:text-white transition-all">
                 🚀 Bootcamp
             </a>
-            <a href="#workshop-section" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:border-primary-blue hover:text-primary-blue transition-all">
+            <a href="{{ route('bootcamps.index') }}?type=workshop" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:border-primary-blue hover:text-primary-blue transition-all">
                 🛠️ Workshop
             </a>
             <a href="#beasiswa-section" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:border-primary-blue hover:text-primary-blue transition-all">
                 🎓 Beasiswa
             </a>
-            <a href="{{ route('bootcamps.index') }}" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:border-primary-blue hover:text-primary-blue transition-all">
+            <a href="{{ route('bootcamps.index') }}?type=webinar" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:border-primary-blue hover:text-primary-blue transition-all">
                 📡 Webinar Gratis
             </a>
             <a href="{{ route('news.index') }}" class="shrink-0 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2 text-sm font-semibold text-slate-600 hover:border-primary-blue hover:text-primary-blue transition-all">

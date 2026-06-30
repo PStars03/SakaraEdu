@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 use App\Models\Bootcamp;
 
 class PublicBootcampList extends Component
@@ -12,7 +13,10 @@ class PublicBootcampList extends Component
 
     public string $search      = '';
     public string $filterPrice = 'all'; // all, free, paid
+    
+    #[Url(as: 'type')]
     public string $filterType  = 'all'; // all, bootcamp, workshop, webinar
+    
     public string $sortBy      = 'latest'; // latest, deadline_asc, deadline_desc
 
     public function updatedSearch(): void
